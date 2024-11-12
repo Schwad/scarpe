@@ -1,0 +1,27 @@
+name: Count Files
+
+on:
+  push:
+    paths:
+      - 'examples/**'
+
+jobs:
+  count-files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Count all examples
+        id: count_all
+        run: |
+          all_examples_count=$(find examples -type f | wc -l)
+          echo "All Examples count: $all_examples_count"
+          echo "ALL_EXAMPLES_COUNT=$all_examples_count"
+
+      - name: Count legacy examples
+        id: count_legacy
+        run: |
+          legacy_examples_count=$(find examples/legacy/not_checked -type f | wc -l)
+          echo "Legacy Examples count: $legacy_examples_count"
+          echo "LEGACY_EXAMPLES_COUNT=$legacy_examples_count"
