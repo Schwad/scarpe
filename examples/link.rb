@@ -10,7 +10,7 @@ Shoes.app do
     @para = para(
       "'Scarpe' means shoes in Italian. 'Scarpe' also means Shoes in modern Ruby and webview!</br>",
       "Scarpe isn't feature complete with any version of Shoes (yet?). We're initially targeting Shoes Classic. ",
-      link("Learn more", click: "http://github.com/schwad/scarpe"),
+      link("Learn more", click: -> { navigate_to("http://github.com/schwad/scarpe") }), # Update this line
       " ",
       link("(show less)") { @para.destroy; @para = collapsed }
     )

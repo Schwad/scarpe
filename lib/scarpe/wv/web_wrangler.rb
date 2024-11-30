@@ -91,6 +91,10 @@ module Scarpe::Webview
 
       @dom_wrangler = DOMWrangler.new(self)
 
+      bind("navigate_to") do |url|
+        navigate_to(url)
+      end
+
       bind("puts") do |*args|
         puts(*args)
       end
@@ -365,6 +369,9 @@ module Scarpe::Webview
 
     attr_writer :empty_page
 
+    def navigate_to(url)
+      @webview.navigate(url)
+    end
     # After setup, we call run to go to "running" mode.
     # No more setup callbacks should be called, only running callbacks.
     def run
