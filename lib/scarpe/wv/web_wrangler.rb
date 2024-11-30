@@ -690,10 +690,17 @@ class Scarpe::Webview::WebWrangler
 
         @log.debug("Redraw is now fully up-to-date") if fully_updated?
       end.on_rejected do
-        @log.error "Could not complete JS redraw! #{promise.reason.full_message}"
-        @log.debug("REDRAW FULLY UP TO DATE BUT JS FAILED") if fully_updated?
+        begin
+          
+        rescue Scarpe::JSRuntimeError => e
+          @log.error "JS runtime error: #{e.full_message}"
+        rescue Scarpe::JSRedrawError => e
+          @log.error "JS Redraw failed: #{e.full_message}"
+        end
+        # @log.error "Could not complete JS redraw! #{promise.reason.full_message}"
+        # @log.debug("REDRAW FULLY UP TO DATE BUT JS FAILED") if fully_updated?
 
-        raise Scarpe::JSRedrawError, "JS Redraw failed! Bailing!"
+        # raise Scarpe::JSRedrawError, "JS Redraw failed! Bailing!"
 
         # Later we should figure out how to handle this. Clear the promises and queues and request another redraw?
       end
